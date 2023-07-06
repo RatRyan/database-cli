@@ -40,7 +40,6 @@ func printEmployees(path string) {
 		employee.HireYear, _ = strconv.Atoi(data[3])
 		fmt.Println(employee)
 	}
-
 }
 
 func main() {
