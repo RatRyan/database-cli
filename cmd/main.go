@@ -43,6 +43,9 @@ func printEmployees(path string) {
 }
 
 func main() {
+	employee.AddEmployee(0, "Ryan", "Ratajczak", 2003)
+	employee.UpdateEmployee(0, "Ryan", "wiggly", 2202)
+
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter path to directory: ")
 	path, _ := reader.ReadString('\n')

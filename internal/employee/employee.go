@@ -18,21 +18,35 @@ func (e Employee) String() string {
 		"\nlastName:  " + e.LastName + "\nhireYear:  " + strconv.Itoa(e.HireYear) + "\n"
 }
 
-var path = "C:/Users/rratajczak/Document/Neumont/2022-2023/Q4/DBT230/DatabaseProject/people"
+var path = "people/long/"
 
-func AddEmployee(id int, firstName string, lastName string, hireDate int) {
-	content := []byte(strconv.Itoa(id) + ", " + firstName + ", " + lastName + strconv.Itoa(hireDate))
-	err := os.WriteFile(path+strconv.Itoa(id)+".txt", content, 0777)
+func writeEmployee(id int, firstName string, lastName string, hireDate int) {
+	content := []byte(strconv.Itoa(id) + ", " + firstName + ", " + lastName + ", " + strconv.Itoa(hireDate))
+	err := os.WriteFile(path + strconv.Itoa(id)+".txt", content, 0777)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Employee successfully added!")
 }
 
-func DeleteEmployee(id int) {
-
+func AddEmployee(id int, firstName string, lastName string, hireDate int) {
+	writeEmployee(id, firstName, lastName, hireDate)
+	fmt.Println("Employee successfully added")
 }
 
 func UpdateEmployee(id int, firstName string, lastName string, hireDate int) {
-
+	_, err := os.ReadFile(path + strconv.Itoa(id) + ".txt")
+	if err != nil {
+		panic(err)
+	}
+	writeEmployee(id, firstName, lastName, hireDate)
+	fmt.Println("Employee " + strconv.Itoa(id) + " Successfully updated")
 }
+
+func DeleteEmployee(id int) {
+	err := os.Remove(path + strconv.Itoa(id) + ".txt")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Employee " + strconv.Itoa(id) + " successfully deleted")
+}
+
