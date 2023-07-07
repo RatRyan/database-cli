@@ -1,6 +1,9 @@
 package employee
 
-import "strconv"
+import (
+	"strconv"
+	"os"
+)
 
 type Employee struct {
 	Id        int
@@ -15,7 +18,7 @@ func (e Employee) String() string {
 }
 
 func AddEmployee(id int, firstName string, lastName string, hireDate int) {
-	
+	os.WriteFile()
 }
 
 func DeleteEmployee(id int) {
