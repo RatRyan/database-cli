@@ -1,8 +1,9 @@
 package employee
 
 import (
-	"strconv"
+	"fmt"
 	"os"
+	"strconv"
 )
 
 type Employee struct {
@@ -17,12 +18,19 @@ func (e Employee) String() string {
 		"\nlastName:  " + e.LastName + "\nhireYear:  " + strconv.Itoa(e.HireYear) + "\n"
 }
 
+var path = "C:/Users/rratajczak/Document/Neumont/2022-2023/Q4/DBT230/DatabaseProject/people"
+
 func AddEmployee(id int, firstName string, lastName string, hireDate int) {
-	os.WriteFile()
+	content := []byte(strconv.Itoa(id) + ", " + firstName + ", " + lastName + strconv.Itoa(hireDate))
+	err := os.WriteFile(path+strconv.Itoa(id)+".txt", content, 0777)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Employee successfully added!")
 }
 
 func DeleteEmployee(id int) {
-	
+
 }
 
 func UpdateEmployee(id int, firstName string, lastName string, hireDate int) {
