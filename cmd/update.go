@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/RatRyan/datacli/internal/employee"
+	"github.com/RatRyan/datacli/internal/paths"
 	"github.com/spf13/cobra"
 )
 
@@ -18,7 +19,7 @@ var updateCmd = &cobra.Command{
 		firstName := args[1]
 		lastName := args[2]
 		hireDate, _ := strconv.Atoi(args[3])
-		_, err := os.ReadFile(employee.Path + strconv.Itoa(id) + ".txt")
+		_, err := os.ReadFile(paths.Long + strconv.Itoa(id) + ".txt")
 		if err != nil {
 			panic(err)
 		}
