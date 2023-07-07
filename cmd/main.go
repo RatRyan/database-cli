@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 	
-	"datacli/internal/employee"
+	"github.com/RatRyan/datacli/internal/employee"
 )
 
 func printPeopleDetails(path string) {
