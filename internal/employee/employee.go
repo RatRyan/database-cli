@@ -3,9 +3,9 @@ package employee
 import (
 	"os"
 	"strconv"
-)
 
-var Path = "C:/Users/rratajczak/Documents/Neumont/2022-2023/Q4/DBT230/datacli/people/long/"
+	"github.com/RatRyan/datacli/internal/paths"
+)
 
 type Employee struct {
 	Id        int
@@ -21,7 +21,7 @@ func (e Employee) String() string {
 
 func WriteEmployee(id int, firstName string, lastName string, hireDate int) {
 	content := []byte(strconv.Itoa(id) + ", " + firstName + ", " + lastName + ", " + strconv.Itoa(hireDate))
-	err := os.WriteFile(Path + strconv.Itoa(id)+".txt", content, 0777)
+	err := os.WriteFile(paths.Long + strconv.Itoa(id)+".txt", content, 0777)
 	if err != nil {
 		panic(err)
 	}
