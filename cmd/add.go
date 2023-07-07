@@ -1,27 +1,24 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
 	"fmt"
+	"strconv"
 
+	"github.com/RatRyan/datacli/internal/employee"
 	"github.com/spf13/cobra"
 )
 
-// addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "creates a new employee",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
+		id, _ := strconv.Atoi(args[0])
+		firstName := args[1]
+		lastName := args[2]
+		hireDate, _ := strconv.Atoi(args[3])
+		employee.WriteEmployee(id, firstName, lastName, hireDate)
+		fmt.Println("Employee successfully added")
 	},
 }
 

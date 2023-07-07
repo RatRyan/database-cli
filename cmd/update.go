@@ -1,27 +1,29 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 
+	"github.com/RatRyan/datacli/internal/employee"
 	"github.com/spf13/cobra"
 )
 
-// updateCmd represents the update command
 var updateCmd = &cobra.Command{
 	Use:   "update",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "updates an existing employee",
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("update called")
+		id, _ := strconv.Atoi(args[0])
+		firstName := args[1]
+		lastName := args[2]
+		hireDate, _ := strconv.Atoi(args[3])
+		_, err := os.ReadFile(employee.Path + strconv.Itoa(id) + ".txt")
+		if err != nil {
+			panic(err)
+		}
+		employee.WriteEmployee(id, firstName, lastName, hireDate)
+		fmt.Println("Employee " + strconv.Itoa(id) + " Successfully updated")
 	},
 }
 

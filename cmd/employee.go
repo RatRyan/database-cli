@@ -1,12 +1,6 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
@@ -14,10 +8,9 @@ import (
 var employeeCmd = &cobra.Command{
 	Use:   "employee",
 	Short: "provides tools for managing employees",
-	Long: ``,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("employee called")
-	},
+	Long:  ``,
+	// Run: func(cmd *cobra.Command, args []string) {
+	// },
 }
 
 func init() {

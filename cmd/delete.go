@@ -1,22 +1,23 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
 	"fmt"
+	"os"
 
+	"github.com/RatRyan/datacli/internal/employee"
 	"github.com/spf13/cobra"
 )
 
-// deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "deletes an existing employee",
-	Long: ``,
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
+		err := os.Remove(employee.Path + args[0] + ".txt")
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Employee " + args[0] + " successfully deleted")
 	},
 }
 
