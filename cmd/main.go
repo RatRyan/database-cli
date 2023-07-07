@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-
+	
 	"datacli/internal/employee"
 )
 
@@ -33,7 +33,7 @@ func printEmployees(path string) {
 		rawData, _ := os.ReadFile(path + "/" + file.Name())
 		trimData := strings.Trim(string(rawData), "\r\n")
 		data := strings.Split(string(trimData), ", ")
-		employee := new(internal.Employee)
+		employee := new(employee.Employee)
 		employee.Id, _ = strconv.Atoi(data[0])
 		employee.FirstName = data[1]
 		employee.LastName = data[2]
