@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+var path = "people/long/"
+
 type Employee struct {
 	Id        int
 	FirstName string
@@ -17,8 +19,6 @@ func (e Employee) String() string {
 	return "ID:        " + strconv.Itoa(e.Id) + "\nfirstName: " + e.FirstName +
 		"\nlastName:  " + e.LastName + "\nhireYear:  " + strconv.Itoa(e.HireYear) + "\n"
 }
-
-var path = "people/long/"
 
 func writeEmployee(id int, firstName string, lastName string, hireDate int) {
 	content := []byte(strconv.Itoa(id) + ", " + firstName + ", " + lastName + ", " + strconv.Itoa(hireDate))
