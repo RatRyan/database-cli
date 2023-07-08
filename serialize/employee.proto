@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option go_package = "github.com/RatRyan/datacli/serialize";
+
+message Employee {
+    int64 Id = 1;
+    string FirstName = 2;
+    string LastName = 3;
+    int64 HireDate = 4;
+}
