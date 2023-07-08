@@ -20,7 +20,7 @@ var serializeAllCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		start := time.Now()
-		dir, err := os.ReadDir(paths.People + "long/")
+		dir, err := os.ReadDir(paths.Long)
 		if err != nil {
 			log.Fatal("Directory doesn't exist")
 		}
