@@ -4,7 +4,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/RatRyan/datacli/internal/paths"
+	"github.com/RatRyan/dbapp/internal/paths"
 )
 
 type Employee struct {
