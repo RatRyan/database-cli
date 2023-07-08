@@ -27,8 +27,7 @@ var serializeAllCmd = &cobra.Command{
 
 		for _, file := range dir {
 			rawData, _ := os.ReadFile(paths.Long + file.Name())
-			trimData := strings.Trim(string(rawData), "\r\n")
-			data := strings.Split(string(trimData), ", ")
+			data := strings.Split(string(rawData), ", ")
 			id, _ := strconv.Atoi(data[0])
 			hireDate, _ := strconv.Atoi(data[3])
 			employee := &serialize.Employee{
@@ -41,7 +40,7 @@ var serializeAllCmd = &cobra.Command{
 			if err != nil {
 				log.Fatal("wait protobuf error??? google wtf!")
 			}
-			os.WriteFile(paths.LongSer+data[0]+".protobuf", message, 0777)
+			os.WriteFile(paths.LongSer+data[0]+".ser", message, 0777)
 		}
 		fmt.Println("Finished Serialization! Time Elapsed:", time.Since(start))
 	},
