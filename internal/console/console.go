@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/RatRyan/dbapp/internal/employee"
-	"github.com/RatRyan/dbapp/serialize"
+	"github.com/RatRyan/dbapp/internal/serialize"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/protobuf/proto"
 )
@@ -111,34 +111,37 @@ var commands = []*cli.Command{
 					if err != nil {
 						log.Fatal("protobuf error")
 					}
-					os.WriteFile(filepath.Join(dirPath + " serialized", data[0]+".ser"), message, 0777)
+					os.WriteFile(filepath.Join(dirPath+" serialized", data[0]+".ser"), message, 0777)
 					wg.Done()
 				}(file)
 			}
-			
+
 			fmt.Println("Finished Serialization! Time Elapsed:", time.Since(start))
 			return nil
 		},
 	},
 	{
 		Name:        "deserialize",
-		Description: "deserialized a file given the id",
+		Description: "deserialize a file given the id",
 		Action: func(cCtx *cli.Context) error {
 			data, err := os.ReadFile(dirPath + " serialized/" + cCtx.Args().Get(0) + ".ser")
 			if err != nil {
 				log.Fatal("File doesn't exist")
 			}
+
 			protoEmployee := serialize.Employee{}
 			err = proto.Unmarshal(data, &protoEmployee)
 			if err != nil {
 				log.Fatal("protobuf error")
 			}
+
 			employee := employee.Employee{
 				Id:        int(protoEmployee.GetId()),
 				FirstName: protoEmployee.GetFirstName(),
 				LastName:  protoEmployee.GetLastName(),
 				HireDate:  int(protoEmployee.GetHireDate()),
 			}
+
 			fmt.Println(employee)
 			return nil
 		},
@@ -154,6 +157,7 @@ var commands = []*cli.Command{
 }
 
 var App = &cli.App{
-	Name:     "Database tool",
-	Commands: commands,
+	Name:        "Database tool",
+	Description: "Console Application for reading/writing/serializing a .txt based database",
+	Commands:    commands,
 }

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/RatRyan/datacli/serialize";
+option go_package = "github.com/RatRyan/datacli/internal/serialize";
 
 message Employee {
     int64 Id = 1;
