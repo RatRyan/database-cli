@@ -19,7 +19,40 @@ import (
 var Running = true
 var dirPath = "C:/Users/rratajczak/Documents/people/long"
 
-var commands = []*cli.Command{
+func deserialize(id string) employee.Employee {
+	data, err := os.ReadFile(dirPath + " serialized/" + id + ".ser")
+	if err != nil {
+		log.Fatal("File doesn't exist")
+	}
+
+	protoEmployee := serialize.Employee{}
+	err = proto.Unmarshal(data, &protoEmployee); 
+	if err != nil {
+		log.Fatal("protobuf error")
+	}
+
+	return employee.Employee{
+		Id:        int(protoEmployee.GetId()),
+		FirstName: protoEmployee.GetFirstName(),
+		LastName:  protoEmployee.GetLastName(),
+		HireDate:  int(protoEmployee.GetHireDate()),
+	}
+}
+
+func findEmployeeByLastName(lastName string) employee.Employee {
+	return employee.Employee{}
+}
+
+func findAllEmployeesByLastName(lastName string) []employee.Employee {
+	return []employee.Employee{}
+}
+
+func getAllEmployees(lastName string) map[int]employee.Employee {
+	employeeMap := make(map[int]employee.Employee)
+	return employeeMap
+}
+
+var commands = []*cli.Command{	
 	{
 		Name:        "path",
 		Description: "Prints out the current path being used",
@@ -124,23 +157,7 @@ var commands = []*cli.Command{
 		Name:        "deserialize",
 		Description: "deserialize a file given the id",
 		Action: func(cCtx *cli.Context) error {
-			data, err := os.ReadFile(dirPath + " serialized/" + cCtx.Args().Get(0) + ".ser")
-			if err != nil {
-				log.Fatal("File doesn't exist")
-			}
-
-			protoEmployee := serialize.Employee{}
-			err = proto.Unmarshal(data, &protoEmployee)
-			if err != nil {
-				log.Fatal("protobuf error")
-			}
-
-			employee := employee.Employee{
-				Id:        int(protoEmployee.GetId()),
-				FirstName: protoEmployee.GetFirstName(),
-				LastName:  protoEmployee.GetLastName(),
-				HireDate:  int(protoEmployee.GetHireDate()),
-			}
+			employee := deserialize(cCtx.Args().Get(0))
 
 			fmt.Println(employee)
 			return nil
