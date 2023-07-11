@@ -19,7 +19,8 @@ import (
 )
 
 var Running = true
-var dirPath = "C:/Users/ryant/Documents/people/long"
+var dirPath = "C:/Users/rratajczak/Documents/people/long"
+var employeeMap = make(map[int]employee.Employee)
 
 func deserialize(id string) employee.Employee {
 	data, err := os.ReadFile(dirPath + " serialized/" + id + ".ser")
@@ -79,6 +80,15 @@ func getAllEmployees() map[int]employee.Employee {
 	return employeeMap
 }
 
+func SetupMap() {
+	_, err := os.ReadFile(dirPath+" serialized/1.ser")
+	if err != nil {
+		return
+	}
+	
+	employeeMap = getAllEmployees()
+}
+
 var commands = []*cli.Command{
 	{
 		Name:        "path",
@@ -101,11 +111,11 @@ var commands = []*cli.Command{
 		},
 	},
 	{
-		Name: "employee",
+		Name:        "employee",
 		Description: "used to add/update/and delete employees from",
 		Subcommands: []*cli.Command{
 			{
-				Name: "add",
+				Name:        "add",
 				Description: "Adds a new employee to the database",
 				Action: func(cCtx *cli.Context) error {
 					args := cCtx.Args().Slice()
@@ -119,7 +129,7 @@ var commands = []*cli.Command{
 				},
 			},
 			{
-				Name: "update",
+				Name:        "update",
 				Description: "Updates an existing employee",
 				Action: func(cCtx *cli.Context) error {
 					args := cCtx.Args().Slice()
@@ -139,7 +149,7 @@ var commands = []*cli.Command{
 				},
 			},
 			{
-				Name: "delete",
+				Name:        "delete",
 				Description: "deletes the employee with matching ID",
 				Action: func(cCtx *cli.Context) error {
 					err := os.Remove(dirPath + "/" + cCtx.Args().First() + ".txt")
@@ -152,6 +162,22 @@ var commands = []*cli.Command{
 					return nil
 				},
 			},
+		},
+	},
+	{
+		Name: "print",
+		Description: "prints out people details",
+		Action: func(cCtx *cli.Context) error {
+			start := time.Now()
+			files, _ := os.ReadDir(dirPath)
+
+			for _, file := range files {
+				data, _ := os.ReadFile(path.Join(dirPath, file.Name()))
+				fmt.Println(string(data))
+			}
+
+			fmt.Println("Elapsed time:", time.Since(start))
+			return nil
 		},
 	},
 	{
@@ -169,12 +195,12 @@ var commands = []*cli.Command{
 			start := time.Now()
 
 			for _, file := range dir {
-				
+
 				wg.Add(1)
 				go func(entry os.DirEntry) {
 					rawData, _ := os.ReadFile(filepath.Join(dirPath, entry.Name()))
 					data := strings.Split(strings.TrimSpace(string(rawData)), ", ")
-					
+
 					id, _ := strconv.Atoi(data[0])
 					hireDate, _ := strconv.Atoi(data[3])
 
@@ -214,7 +240,7 @@ var commands = []*cli.Command{
 		},
 	},
 	{
-		Name: "find",
+		Name:        "find",
 		Description: "prints out the first occurance of an employee with a matching last name",
 		Action: func(cCtx *cli.Context) error {
 			emp, err := findEmployeeByLastName(cCtx.Args().Get(0))
@@ -228,11 +254,11 @@ var commands = []*cli.Command{
 		},
 	},
 	{
-		Name: "findAll",
+		Name:        "findAll",
 		Description: "prints out all of the employees with a matching last name",
 		Action: func(cCtx *cli.Context) error {
 			empList := findAllEmployeesByLastName(cCtx.Args().Get(0))
-			
+
 			fmt.Println(len(empList), "employees found")
 			for _, emp := range empList {
 				fmt.Println(emp)
@@ -244,12 +270,13 @@ var commands = []*cli.Command{
 	{
 		Name: "hashMap",
 		Action: func(cCtx *cli.Context) error {
-			empMap := getAllEmployees()
-
-			for i := range empMap {
-				fmt.Println(empMap[i])
+			start := time.Now()
+			
+			for i := 0; i < len(employeeMap); i++ {
+				fmt.Println(employeeMap[i])
 			}
 
+			fmt.Println("Elapsed time:", time.Since(start))
 			return nil
 		},
 	},
@@ -265,6 +292,7 @@ var commands = []*cli.Command{
 
 var App = &cli.App{
 	Name:        "Database tool",
+	HelpName: "Database tool",
 	Description: "Console Application for reading/writing/serializing a .txt based database",
 	Commands:    commands,
 }
