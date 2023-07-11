@@ -21,7 +21,7 @@ func clearScreen() {
 func main() {
 	clearScreen()
 	for console.Running {
-		fmt.Print("\n > ")
+		fmt.Print("\nDatabase> ")
 		rawInput, _ := reader.ReadString('\n')
 		input := strings.Fields(rawInput)
 		command := append([]string{""}, input...)
