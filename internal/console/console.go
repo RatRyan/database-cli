@@ -81,17 +81,18 @@ func getAllEmployees() map[int]employee.Employee {
 }
 
 func SetupMap() {
-	_, err := os.ReadFile(dirPath+" serialized/1.ser")
+	_, err := os.ReadFile(dirPath + " serialized/1.ser")
 	if err != nil {
 		return
 	}
-	
+
 	employeeMap = getAllEmployees()
 }
 
 var commands = []*cli.Command{
 	{
 		Name:        "path",
+		Usage:       "Prints out the current path",
 		Description: "Prints out the current path being used",
 		Action: func(cCtx *cli.Context) error {
 			fmt.Println("current path: " + dirPath)
@@ -112,10 +113,12 @@ var commands = []*cli.Command{
 	},
 	{
 		Name:        "employee",
-		Description: "used to add/update/and delete employees from",
+		Usage:       "Provides tools for managing employees",
+		Description: "used to add/update/delete employees from",
 		Subcommands: []*cli.Command{
 			{
 				Name:        "add",
+				Usage:       "Adds a new employee to the database",
 				Description: "Adds a new employee to the database",
 				Action: func(cCtx *cli.Context) error {
 					args := cCtx.Args().Slice()
@@ -130,6 +133,7 @@ var commands = []*cli.Command{
 			},
 			{
 				Name:        "update",
+				Usage:       "Updates an existing employee in the database",
 				Description: "Updates an existing employee",
 				Action: func(cCtx *cli.Context) error {
 					args := cCtx.Args().Slice()
@@ -150,6 +154,7 @@ var commands = []*cli.Command{
 			},
 			{
 				Name:        "delete",
+				Usage:       "Removes an employee from the database",
 				Description: "deletes the employee with matching ID",
 				Action: func(cCtx *cli.Context) error {
 					err := os.Remove(dirPath + "/" + cCtx.Args().First() + ".txt")
@@ -165,7 +170,8 @@ var commands = []*cli.Command{
 		},
 	},
 	{
-		Name: "print",
+		Name:        "print",
+		Usage:       "Prints the raw data of every employee",
 		Description: "prints out people details",
 		Action: func(cCtx *cli.Context) error {
 			start := time.Now()
@@ -182,6 +188,7 @@ var commands = []*cli.Command{
 	},
 	{
 		Name:        "serialize",
+		Usage:       "Serializes every file in the current path",
 		Description: "serializes all of the files in the current path",
 		Action: func(cCtx *cli.Context) error {
 
@@ -231,7 +238,8 @@ var commands = []*cli.Command{
 	},
 	{
 		Name:        "deserialize",
-		Description: "deserialize an employee given an id",
+		Usage:       "Deserialize an employee by id",
+		Description: "Deserialize an employee given an id",
 		Action: func(cCtx *cli.Context) error {
 			employee := deserialize(cCtx.Args().Get(0))
 
@@ -241,6 +249,7 @@ var commands = []*cli.Command{
 	},
 	{
 		Name:        "find",
+		Usage:       "Finds the first employee by last name",
 		Description: "prints out the first occurance of an employee with a matching last name",
 		Action: func(cCtx *cli.Context) error {
 			emp, err := findEmployeeByLastName(cCtx.Args().Get(0))
@@ -255,6 +264,7 @@ var commands = []*cli.Command{
 	},
 	{
 		Name:        "findAll",
+		Usage:       "Finds all of the employees with a matching last name",
 		Description: "prints out all of the employees with a matching last name",
 		Action: func(cCtx *cli.Context) error {
 			empList := findAllEmployeesByLastName(cCtx.Args().Get(0))
@@ -268,10 +278,12 @@ var commands = []*cli.Command{
 		},
 	},
 	{
-		Name: "hashMap",
+		Name:  "hashMap",
+		Usage: "Sets up a map and prints out the employees",
 		Action: func(cCtx *cli.Context) error {
+			SetupMap()
 			start := time.Now()
-			
+
 			for i := 0; i < len(employeeMap); i++ {
 				fmt.Println(employeeMap[i])
 			}
@@ -282,7 +294,8 @@ var commands = []*cli.Command{
 	},
 	{
 		Name:        "quit",
-		Description: "quits out of the application",
+		Usage:       "Quits out of the application",
+		Description: "uits out of the application",
 		Action: func(cCtx *cli.Context) error {
 			Running = false
 			return nil
@@ -292,7 +305,7 @@ var commands = []*cli.Command{
 
 var App = &cli.App{
 	Name:        "Database tool",
-	HelpName: "Database tool",
+	HelpName:    "Database tool",
 	Description: "Console Application for reading/writing/serializing a .txt based database",
 	Commands:    commands,
 }
