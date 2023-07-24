@@ -12,7 +12,8 @@ import (
 var reader = bufio.NewReader(os.Stdin)
 
 func main() {
-	for console.Running {
+	running := true
+	for running {
 		fmt.Print("\nDatabase> ")
 
 		rawInput, _ := reader.ReadString('\n')

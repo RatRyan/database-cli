@@ -80,28 +80,20 @@ func getAllEmployees() map[int]employee.Employee {
 	return employeeMap
 }
 
-func SetupMap() {
-	_, err := os.ReadFile(dirPath + " serialized/1.ser")
-	if err != nil {
-		return
-	}
-
-	employeeMap = getAllEmployees()
-}
-
 var commands = []*cli.Command{
 	{
-		Name:        "path",
-		Usage:       "Prints out the current path",
-		Description: "Prints out the current path being used",
+		Name:      "path",
+		UsageText: "path [command]",
+		Usage:     "Prints out the current path",
+		ArgsUsage: "Prints out the current path being used",
 		Action: func(cCtx *cli.Context) error {
 			fmt.Println("current path: " + dirPath)
 			return nil
 		},
 		Subcommands: []*cli.Command{
 			{
-				Name:        "set",
-				Description: "Sets the path to the people folder",
+				Name:  "set",
+				Usage: "Sets the path to the people folder",
 				Action: func(cCtx *cli.Context) error {
 					dirPath = filepath.ToSlash(cCtx.Args().Get(0))
 
@@ -281,7 +273,7 @@ var commands = []*cli.Command{
 		Name:  "hashMap",
 		Usage: "Sets up a map and prints out the employees",
 		Action: func(cCtx *cli.Context) error {
-			SetupMap()
+			employeeMap = getAllEmployees()
 			start := time.Now()
 
 			for i := 0; i < len(employeeMap); i++ {
@@ -304,8 +296,9 @@ var commands = []*cli.Command{
 }
 
 var App = &cli.App{
-	Name:        "Database tool",
-	HelpName:    "Database tool",
-	Description: "Console Application for reading/writing/serializing a .txt based database",
+	Name:        "Database Application",
+	Usage:       "A CRUD database tool",
+	UsageText:   "[command]",
+	Description: "Console Application for performing CRUD actions on a .txt based database",
 	Commands:    commands,
 }
